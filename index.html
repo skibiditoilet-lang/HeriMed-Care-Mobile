@@ -2,7 +2,6 @@
 <html lang="vi">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -12,10 +11,8 @@
 
     <title>HeriMed Care Mobile</title>
 
-
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
 
     <!-- Font Awesome -->
     <link
@@ -23,57 +20,41 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     >
 
+    <!-- QR Scanner -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <!-- Google Font -->
     <style>
 
         @import url(
             'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap'
         );
 
-
         * {
             box-sizing: border-box;
         }
-
 
         html {
             scroll-behavior: smooth;
         }
 
-
         body {
-
-            font-family:
-                'Plus Jakarta Sans',
-                sans-serif;
-
-            -webkit-tap-highlight-color:
-                transparent;
-
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
             margin: 0;
-
         }
-
 
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
 
-
         .hide-scrollbar {
-
             -ms-overflow-style: none;
-
             scrollbar-width: none;
-
         }
-
 
         .tab-content {
             animation: fadeIn 0.2s ease;
         }
-
 
         @keyframes fadeIn {
 
@@ -89,9 +70,22 @@
 
         }
 
-
         .active-scale:active {
             transform: scale(0.96);
+        }
+
+        #reader {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        #reader video {
+            border-radius: 16px;
+        }
+
+        .qr-result {
+            word-break: break-word;
         }
 
     </style>
@@ -116,77 +110,2033 @@
 >
 
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+<!-- =====================================================
+     HEADER
+====================================================== -->
 
-    <header
+<header
+    class="
+        bg-emerald-950
+        text-amber-50
+        px-5
+        pt-4
+        pb-5
+        rounded-b-3xl
+        shadow-lg
+        sticky
+        top-0
+        z-30
+    "
+>
+
+    <div class="flex justify-between items-center mb-3">
+
+        <div class="flex items-center gap-2.5">
+
+            <div
+                class="
+                    w-9
+                    h-9
+                    rounded-full
+                    bg-amber-500
+                    text-emerald-950
+                    flex
+                    items-center
+                    justify-center
+                    font-bold
+                    text-lg
+                "
+            >
+                <i class="fa-solid fa-mortar-pestle"></i>
+            </div>
+
+            <div>
+
+                <h1
+                    class="
+                        font-bold
+                        text-base
+                        leading-tight
+                        text-amber-100
+                    "
+                >
+                    HeriMed Care
+                </h1>
+
+                <p
+                    class="
+                        text-[10px]
+                        text-emerald-400
+                        uppercase
+                        tracking-widest
+                        font-semibold
+                    "
+                >
+                    Trợ Lý Đông Y Cổ Truyền
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            onclick="switchTab('qr')"
+            class="
+                w-9
+                h-9
+                rounded-full
+                bg-emerald-800
+                border
+                border-emerald-600
+                flex
+                items-center
+                justify-center
+                text-amber-300
+                active-scale
+            "
+        >
+            <i class="fa-solid fa-qrcode"></i>
+        </button>
+
+    </div>
+
+
+    <div
         class="
-            bg-emerald-950
-            text-amber-50
-            px-5
-            pt-4
-            pb-5
-            rounded-b-3xl
-            shadow-lg
-            sticky
-            top-0
-            z-30
+            bg-emerald-900/80
+            rounded-xl
+            px-3
+            py-2
+            flex
+            items-center
+            justify-between
+            text-xs
+            border
+            border-emerald-700/50
         "
     >
 
-        <div class="flex justify-between items-center mb-3">
+        <div class="flex items-center gap-2">
+
+            <span
+                class="
+                    w-2
+                    h-2
+                    rounded-full
+                    bg-emerald-400
+                    animate-pulse
+                "
+            ></span>
+
+            <span class="text-emerald-200">
+                Hệ Thống Trợ Lý Đông Y
+            </span>
+
+        </div>
+
+        <span class="font-semibold text-amber-300">
+            Đã Kết Nối
+        </span>
+
+    </div>
+
+</header>
 
 
-            <!-- LOGO -->
 
-            <div class="flex items-center gap-2.5">
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main
+    class="
+        flex-1
+        px-4
+        py-4
+        space-y-4
+        overflow-y-auto
+        hide-scrollbar
+    "
+>
+
+
+<!-- =====================================================
+     TRANG CHỦ
+====================================================== -->
+
+<section
+    id="tab-home"
+    class="tab-content space-y-4"
+>
+
+    <!-- LỊCH UỐNG THUỐC -->
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            p-4
+            shadow-sm
+            border
+            border-stone-200/60
+        "
+    >
+
+        <div
+            class="
+                flex
+                justify-between
+                items-center
+                mb-3
+            "
+        >
+
+            <span
+                class="
+                    text-xs
+                    font-bold
+                    text-stone-400
+                    uppercase
+                    tracking-wider
+                "
+            >
+                Lịch Uống Thuốc
+            </span>
+
+            <span
+                class="
+                    text-xs
+                    font-semibold
+                    text-emerald-700
+                    bg-emerald-50
+                    px-2.5
+                    py-1
+                    rounded-full
+                "
+            >
+                Hôm Nay
+            </span>
+
+        </div>
+
+
+        <div
+            class="
+                flex
+                items-center
+                justify-between
+                bg-amber-50
+                border
+                border-amber-200
+                rounded-xl
+                p-3
+            "
+        >
+
+            <div class="flex items-center gap-3">
 
                 <div
                     class="
-                        w-9
-                        h-9
-                        rounded-full
+                        w-10
+                        h-10
+                        rounded-xl
                         bg-amber-500
                         text-emerald-950
                         flex
                         items-center
                         justify-center
-                        font-bold
-                        text-lg
-                        shadow-inner
+                    "
+                >
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+
+                <div>
+
+                    <h3 class="font-bold text-sm">
+                        Liều Uống Buổi Tối
+                    </h3>
+
+                    <p
+                        class="
+                            text-xs
+                            text-amber-800
+                        "
+                    >
+                        18:30
+                        (Sau bữa ăn 30 phút)
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i
+                class="
+                    fa-solid
+                    fa-circle-check
+                    text-emerald-600
+                    text-lg
+                "
+            ></i>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ĐƠN THUỐC -->
+
+    <div
+        class="
+            bg-gradient-to-br
+            from-emerald-900
+            to-emerald-950
+            text-white
+            rounded-2xl
+            p-5
+            shadow-md
+        "
+    >
+
+        <span
+            class="
+                bg-emerald-800
+                text-amber-300
+                text-[10px]
+                font-bold
+                px-2.5
+                py-0.5
+                rounded-full
+                uppercase
+            "
+        >
+            Đơn Thuốc Đang Dùng
+        </span>
+
+        <h3
+            class="
+                text-lg
+                font-bold
+                mt-2
+                text-amber-100
+            "
+        >
+            Bài Thuốc Bổ Phế Giải Cảm
+        </h3>
+
+        <p
+            class="
+                text-xs
+                text-emerald-200/80
+                mt-1
+                mb-4
+            "
+        >
+            Lương y: Lương Tấn Định
+            • Liệu trình 7 ngày
+        </p>
+
+        <div class="space-y-1.5">
+
+            <div
+                class="
+                    flex
+                    justify-between
+                    text-xs
+                    font-medium
+                "
+            >
+
+                <span class="text-emerald-300">
+                    Tiến độ liệu trình
+                </span>
+
+                <span class="text-amber-300 font-bold">
+                    Ngày 4/7
+                </span>
+
+            </div>
+
+            <div
+                class="
+                    w-full
+                    bg-emerald-950
+                    rounded-full
+                    h-2
+                "
+            >
+
+                <div
+                    class="
+                        bg-amber-400
+                        h-2
+                        rounded-full
+                    "
+                    style="width:57%"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NÚT NHANH -->
+
+    <div class="grid grid-cols-2 gap-3">
+
+
+        <button
+            onclick="switchTab('qr')"
+            class="
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+                shadow-sm
+                flex
+                flex-col
+                items-center
+                text-center
+                space-y-2
+                active-scale
+            "
+        >
+
+            <div
+                class="
+                    w-11
+                    h-11
+                    rounded-full
+                    bg-emerald-100
+                    text-emerald-800
+                    flex
+                    items-center
+                    justify-center
+                    text-lg
+                "
+            >
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+
+            <span
+                class="
+                    text-xs
+                    font-bold
+                    text-stone-700
+                "
+            >
+                Quét Mã QR
+            </span>
+
+        </button>
+
+
+
+        <button
+            onclick="switchTab('lookup')"
+            class="
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+                shadow-sm
+                flex
+                flex-col
+                items-center
+                text-center
+                space-y-2
+                active-scale
+            "
+        >
+
+            <div
+                class="
+                    w-11
+                    h-11
+                    rounded-full
+                    bg-amber-100
+                    text-amber-800
+                    flex
+                    items-center
+                    justify-center
+                    text-lg
+                "
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <span
+                class="
+                    text-xs
+                    font-bold
+                    text-stone-700
+                "
+            >
+                Tra Cứu Đơn Thuốc
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUÉT QR
+====================================================== -->
+
+<section
+    id="tab-qr"
+    class="
+        tab-content
+        hidden
+        space-y-4
+    "
+>
+
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            p-5
+            shadow-sm
+            border
+            border-stone-200
+        "
+    >
+
+        <div class="text-center mb-4">
+
+            <div
+                class="
+                    w-14
+                    h-14
+                    mx-auto
+                    rounded-full
+                    bg-emerald-100
+                    text-emerald-800
+                    flex
+                    items-center
+                    justify-center
+                    text-2xl
+                    mb-3
+                "
+            >
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+
+            <h2
+                class="
+                    text-lg
+                    font-bold
+                    text-stone-800
+                "
+            >
+                Quét Mã QR Đơn Thuốc
+            </h2>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Đưa mã QR trên đơn thuốc vào khung camera.
+            </p>
+
+        </div>
+
+
+        <!-- CAMERA -->
+
+        <div
+            id="reader"
+            class="
+                bg-stone-100
+                min-h-[250px]
+                flex
+                items-center
+                justify-center
+            "
+        >
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            id="startQRButton"
+            onclick="startQRScanner()"
+            class="
+                w-full
+                mt-4
+                bg-emerald-900
+                text-amber-300
+                font-bold
+                py-3
+                rounded-xl
+                shadow-md
+                active-scale
+            "
+        >
+
+            <i class="fa-solid fa-camera mr-2"></i>
+
+            Bắt Đầu Quét
+
+        </button>
+
+
+        <button
+            id="stopQRButton"
+            onclick="stopQRScanner()"
+            class="
+                hidden
+                w-full
+                mt-2
+                bg-red-700
+                text-white
+                font-bold
+                py-3
+                rounded-xl
+                active-scale
+            "
+        >
+
+            <i class="fa-solid fa-stop mr-2"></i>
+
+            Dừng Camera
+
+        </button>
+
+
+        <p
+            id="qrStatus"
+            class="
+                text-center
+                text-xs
+                text-stone-500
+                mt-3
+            "
+        >
+            Camera chưa được bật.
+        </p>
+
+    </div>
+
+
+
+    <!-- KẾT QUẢ QR -->
+
+    <div
+        id="qrResultBox"
+        class="
+            hidden
+            bg-white
+            rounded-2xl
+            p-5
+            shadow-sm
+            border
+            border-emerald-200
+        "
+    >
+
+        <div class="flex items-center gap-2 mb-3">
+
+            <i
+                class="
+                    fa-solid
+                    fa-circle-check
+                    text-emerald-600
+                "
+            ></i>
+
+            <h3
+                class="
+                    font-bold
+                    text-sm
+                "
+            >
+                Đã đọc mã QR
+            </h3>
+
+        </div>
+
+
+        <p
+            id="qrResultText"
+            class="
+                qr-result
+                text-xs
+                text-stone-600
+                bg-stone-50
+                p-3
+                rounded-xl
+            "
+        ></p>
+
+
+        <button
+            onclick="lookupFromQR()"
+            class="
+                w-full
+                mt-3
+                bg-emerald-900
+                text-amber-300
+                font-bold
+                py-3
+                rounded-xl
+            "
+        >
+
+            <i class="fa-solid fa-file-medical mr-2"></i>
+
+            Tra Cứu Đơn Thuốc
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRA CỨU
+====================================================== -->
+
+<section
+    id="tab-lookup"
+    class="
+        tab-content
+        hidden
+        space-y-4
+    "
+>
+
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            p-5
+            shadow-sm
+            border
+            border-stone-200
+        "
+    >
+
+        <div class="text-center mb-4">
+
+            <div
+                class="
+                    w-14
+                    h-14
+                    mx-auto
+                    rounded-full
+                    bg-amber-100
+                    text-amber-800
+                    flex
+                    items-center
+                    justify-center
+                    text-2xl
+                    mb-3
+                "
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h2
+                class="
+                    text-lg
+                    font-bold
+                "
+            >
+                Tra Cứu Đơn Thuốc
+            </h2>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Nhập mã đơn thuốc hoặc mã QR.
+            </p>
+
+        </div>
+
+
+        <div class="relative">
+
+            <i
+                class="
+                    fa-solid
+                    fa-file-medical
+                    absolute
+                    left-3
+                    top-3.5
+                    text-stone-400
+                "
+            ></i>
+
+            <input
+                id="lookupCode"
+                type="text"
+                placeholder="Ví dụ: HM001"
+                class="
+                    w-full
+                    pl-9
+                    pr-3
+                    py-3
+                    bg-stone-50
+                    border
+                    border-stone-200
+                    rounded-xl
+                    text-sm
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-emerald-700
+                "
+            >
+
+        </div>
+
+
+        <button
+            onclick="lookupPrescription()"
+            class="
+                w-full
+                mt-3
+                bg-emerald-900
+                text-amber-300
+                font-bold
+                py-3
+                rounded-xl
+                shadow-md
+                active-scale
+            "
+        >
+
+            <i class="fa-solid fa-search mr-2"></i>
+
+            Tra Cứu
+
+        </button>
+
+
+        <p
+            class="
+                text-[11px]
+                text-stone-400
+                text-center
+                mt-3
+            "
+        >
+            Mã demo: HM001
+        </p>
+
+    </div>
+
+
+
+    <!-- KẾT QUẢ TRA CỨU -->
+
+    <div
+        id="prescriptionResult"
+        class="hidden"
+    >
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     NHẬT KÝ
+====================================================== -->
+
+<section
+    id="tab-journal"
+    class="
+        tab-content
+        hidden
+        space-y-3
+    "
+>
+
+    <div
+        class="
+            bg-white
+            p-5
+            rounded-2xl
+            border
+            border-stone-200
+            shadow-sm
+        "
+    >
+
+        <h3
+            class="
+                font-bold
+                text-sm
+                mb-4
+            "
+        >
+            Nhật Ký Biểu Hiện Hôm Nay
+        </h3>
+
+
+        <form
+            onsubmit="handleJournalSubmit(event)"
+            class="space-y-3 text-xs"
+        >
+
+            <div>
+
+                <label
+                    class="
+                        block
+                        font-semibold
+                        text-stone-600
+                        mb-1
+                    "
+                >
+                    Cảm giác cơ thể
+                </label>
+
+                <select
+                    id="bodyFeeling"
+                    class="
+                        w-full
+                        px-3
+                        py-2.5
+                        bg-stone-50
+                        border
+                        border-stone-200
+                        rounded-xl
                     "
                 >
 
-                    <i class="fa-solid fa-mortar-pestle"></i>
+                    <option>
+                        Dễ chịu
+                    </option>
+
+                    <option>
+                        Bình thường
+                    </option>
+
+                    <option>
+                        Hơi mệt
+                    </option>
+
+                    <option>
+                        Khó chịu
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label
+                    class="
+                        block
+                        font-semibold
+                        text-stone-600
+                        mb-1
+                    "
+                >
+                    Ghi chú
+                </label>
+
+                <textarea
+                    id="journalNote"
+                    rows="4"
+                    placeholder="Nhập thông tin..."
+                    class="
+                        w-full
+                        px-3
+                        py-2.5
+                        bg-stone-50
+                        border
+                        border-stone-200
+                        rounded-xl
+                    "
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="
+                    w-full
+                    bg-emerald-900
+                    text-amber-300
+                    font-bold
+                    py-3
+                    rounded-xl
+                "
+            >
+                Lưu Nhật Ký
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DƯỢC LIỆU
+====================================================== -->
+
+<section
+    id="tab-herbs"
+    class="
+        tab-content
+        hidden
+        space-y-3
+    "
+>
+
+    <div class="relative">
+
+        <i
+            class="
+                fa-solid
+                fa-magnifying-glass
+                absolute
+                left-3
+                top-3
+                text-stone-400
+            "
+        ></i>
+
+        <input
+            id="herbSearch"
+            oninput="filterHerbs()"
+            type="text"
+            placeholder="Tìm kiếm dược liệu..."
+            class="
+                w-full
+                pl-9
+                pr-3
+                py-2.5
+                bg-white
+                border
+                border-stone-200
+                rounded-xl
+                text-xs
+            "
+        >
+
+    </div>
+
+
+    <div
+        id="herbList"
+        class="space-y-2.5"
+    >
+
+        <div
+            class="
+                herb-card
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+            "
+        >
+
+            <h3
+                class="
+                    herb-name
+                    font-bold
+                    text-sm
+                "
+            >
+                Quế
+            </h3>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Dược liệu truyền thống có tính ấm.
+            </p>
+
+        </div>
+
+
+        <div
+            class="
+                herb-card
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+            "
+        >
+
+            <h3
+                class="
+                    herb-name
+                    font-bold
+                    text-sm
+                "
+            >
+                Táo tàu
+            </h3>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Thường được sử dụng trong các bài thuốc và món ăn truyền thống.
+            </p>
+
+        </div>
+
+
+        <div
+            class="
+                herb-card
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+            "
+        >
+
+            <h3
+                class="
+                    herb-name
+                    font-bold
+                    text-sm
+                "
+            >
+                La hán quả
+            </h3>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Quả được sử dụng trong đồ uống và y học cổ truyền.
+            </p>
+
+        </div>
+
+
+        <div
+            class="
+                herb-card
+                bg-white
+                p-4
+                rounded-2xl
+                border
+                border-stone-200
+            "
+        >
+
+            <h3
+                class="
+                    herb-name
+                    font-bold
+                    text-sm
+                "
+            >
+                Rễ tranh
+            </h3>
+
+            <p
+                class="
+                    text-xs
+                    text-stone-500
+                    mt-1
+                "
+            >
+                Một dược liệu được sử dụng trong y học cổ truyền.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LỊCH HẸN
+====================================================== -->
+
+<section
+    id="tab-appointment"
+    class="
+        tab-content
+        hidden
+        space-y-3
+    "
+>
+
+    <div
+        class="
+            bg-white
+            p-5
+            rounded-2xl
+            border
+            border-stone-200
+            shadow-sm
+        "
+    >
+
+        <h3
+            class="
+                font-bold
+                text-sm
+                mb-4
+            "
+        >
+            Đặt Lịch Tái Khám
+        </h3>
+
+
+        <form
+            onsubmit="handleAppointment(event)"
+            class="space-y-3 text-xs"
+        >
+
+            <input
+                id="patientName"
+                type="text"
+                placeholder="Tên bệnh nhân"
+                required
+                class="
+                    w-full
+                    px-3
+                    py-2.5
+                    bg-stone-50
+                    border
+                    border-stone-200
+                    rounded-xl
+                "
+            >
+
+
+            <input
+                id="appointmentDate"
+                type="date"
+                required
+                class="
+                    w-full
+                    px-3
+                    py-2.5
+                    bg-stone-50
+                    border
+                    border-stone-200
+                    rounded-xl
+                "
+            >
+
+
+            <textarea
+                id="appointmentNote"
+                rows="3"
+                placeholder="Nội dung cần trao đổi..."
+                class="
+                    w-full
+                    px-3
+                    py-2.5
+                    bg-stone-50
+                    border
+                    border-stone-200
+                    rounded-xl
+                "
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="
+                    w-full
+                    bg-emerald-900
+                    text-amber-300
+                    font-bold
+                    py-3
+                    rounded-xl
+                "
+            >
+                Xác Nhận Lịch Hẹn
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+</main>
+
+
+
+<!-- =====================================================
+     BOTTOM NAV
+====================================================== -->
+
+<nav
+    class="
+        fixed
+        bottom-0
+        left-0
+        right-0
+        max-w-md
+        mx-auto
+        bg-white/95
+        backdrop-blur-md
+        border-t
+        border-stone-200
+        px-2
+        py-2
+        flex
+        justify-around
+        items-center
+        z-40
+        shadow-lg
+    "
+>
+
+
+    <button
+        onclick="switchTab('home')"
+        id="nav-home"
+        class="nav-btn flex flex-col items-center text-emerald-800"
+    >
+
+        <i class="fa-solid fa-house"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            Trang Chủ
+        </span>
+
+    </button>
+
+
+    <button
+        onclick="switchTab('qr')"
+        id="nav-qr"
+        class="nav-btn flex flex-col items-center text-stone-400"
+    >
+
+        <i class="fa-solid fa-qrcode"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            QR
+        </span>
+
+    </button>
+
+
+    <button
+        onclick="switchTab('lookup')"
+        id="nav-lookup"
+        class="nav-btn flex flex-col items-center text-stone-400"
+    >
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            Tra Cứu
+        </span>
+
+    </button>
+
+
+    <button
+        onclick="switchTab('journal')"
+        id="nav-journal"
+        class="nav-btn flex flex-col items-center text-stone-400"
+    >
+
+        <i class="fa-solid fa-book-medical"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            Nhật Ký
+        </span>
+
+    </button>
+
+
+    <button
+        onclick="switchTab('herbs')"
+        id="nav-herbs"
+        class="nav-btn flex flex-col items-center text-stone-400"
+    >
+
+        <i class="fa-solid fa-leaf"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            Dược Liệu
+        </span>
+
+    </button>
+
+
+    <button
+        onclick="switchTab('appointment')"
+        id="nav-appointment"
+        class="nav-btn flex flex-col items-center text-stone-400"
+    >
+
+        <i class="fa-solid fa-calendar-check"></i>
+
+        <span class="text-[10px] font-bold mt-1">
+            Lịch Hẹn
+        </span>
+
+    </button>
+
+</nav>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+/* =====================================================
+   DỮ LIỆU ĐƠN THUỐC DEMO
+===================================================== */
+
+const prescriptions = {
+
+    "HM001": {
+
+        patient: "Nguyễn Văn A",
+
+        code: "HM001",
+
+        doctor: "Lương y Lương Tấn Định",
+
+        medicine: "Bài Thuốc Bổ Phế Giải Cảm",
+
+        duration: "7 ngày",
+
+        dosage: "Dùng theo hướng dẫn của thầy thuốc.",
+
+        time: "18:30 - Sau bữa ăn 30 phút",
+
+        status: "Đang sử dụng",
+
+        note:
+            "Đây là dữ liệu minh họa của hệ thống HeriMed Care."
+
+    },
+
+    "HM002": {
+
+        patient: "Trần Thị B",
+
+        code: "HM002",
+
+        doctor: "Lương y HeriMed Care",
+
+        medicine: "Bài thuốc Đông y mẫu",
+
+        duration: "5 ngày",
+
+        dosage: "Dùng theo hướng dẫn trên đơn.",
+
+        time: "Sau bữa ăn",
+
+        status: "Đang sử dụng",
+
+        note:
+            "Đây là dữ liệu minh họa."
+
+    }
+
+};
+
+
+
+/* =====================================================
+   CHUYỂN TAB
+===================================================== */
+
+function switchTab(tabName) {
+
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(function(tab) {
+
+            tab.classList.add("hidden");
+
+        });
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(function(btn) {
+
+            btn.classList.remove(
+                "text-emerald-800"
+            );
+
+            btn.classList.add(
+                "text-stone-400"
+            );
+
+        });
+
+
+    const tab =
+        document.getElementById(
+            "tab-" + tabName
+        );
+
+
+    if (tab) {
+
+        tab.classList.remove("hidden");
+
+    }
+
+
+    const nav =
+        document.getElementById(
+            "nav-" + tabName
+        );
+
+
+    if (nav) {
+
+        nav.classList.remove(
+            "text-stone-400"
+        );
+
+        nav.classList.add(
+            "text-emerald-800"
+        );
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   QR SCANNER
+===================================================== */
+
+let html5QrCode = null;
+
+let lastQRText = "";
+
+
+
+function startQRScanner() {
+
+
+    const status =
+        document.getElementById(
+            "qrStatus"
+        );
+
+
+    const startButton =
+        document.getElementById(
+            "startQRButton"
+        );
+
+
+    const stopButton =
+        document.getElementById(
+            "stopQRButton"
+        );
+
+
+    status.innerText =
+        "Đang khởi động camera...";
+
+
+    html5QrCode =
+        new Html5Qrcode("reader");
+
+
+    const config = {
+
+        fps: 10,
+
+        qrbox: {
+            width: 220,
+            height: 220
+        }
+
+    };
+
+
+    html5QrCode
+        .start(
+
+            {
+                facingMode: "environment"
+            },
+
+            config,
+
+            function(decodedText) {
+
+                onQRCodeScanned(
+                    decodedText
+                );
+
+            },
+
+            function(errorMessage) {
+
+                // Không cần hiển thị
+                // lỗi quét từng frame.
+
+            }
+
+        )
+
+        .then(function() {
+
+            startButton.classList.add(
+                "hidden"
+            );
+
+            stopButton.classList.remove(
+                "hidden"
+            );
+
+            status.innerText =
+                "Đang quét... Hãy đưa mã QR vào khung.";
+
+        })
+
+        .catch(function(error) {
+
+            console.error(error);
+
+            status.innerText =
+                "Không thể mở camera. Hãy kiểm tra quyền camera.";
+
+            alert(
+                "Không thể mở camera. Hãy cho phép trình duyệt sử dụng camera."
+            );
+
+        });
+
+}
+
+
+
+/* =====================================================
+   KHI QUÉT ĐƯỢC QR
+===================================================== */
+
+function onQRCodeScanned(decodedText) {
+
+
+    lastQRText =
+        decodedText.trim();
+
+
+    const resultBox =
+        document.getElementById(
+            "qrResultBox"
+        );
+
+
+    const resultText =
+        document.getElementById(
+            "qrResultText"
+        );
+
+
+    resultText.innerText =
+        lastQRText;
+
+
+    resultBox.classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "qrStatus"
+    ).innerText =
+        "Đã quét thành công mã QR.";
+
+
+    stopQRScanner();
+
+}
+
+
+
+/* =====================================================
+   DỪNG CAMERA
+===================================================== */
+
+function stopQRScanner() {
+
+
+    if (
+        html5QrCode &&
+        html5QrCode.isScanning
+    ) {
+
+        html5QrCode
+            .stop()
+            .then(function() {
+
+                console.log(
+                    "Camera đã dừng."
+                );
+
+            })
+
+            .catch(function(error) {
+
+                console.log(error);
+
+            });
+
+    }
+
+
+    document
+        .getElementById(
+            "startQRButton"
+        )
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById(
+            "stopQRButton"
+        )
+        .classList.add("hidden");
+
+}
+
+
+
+/* =====================================================
+   LẤY MÃ TỪ QR ĐỂ TRA CỨU
+===================================================== */
+
+function lookupFromQR() {
+
+
+    if (!lastQRText) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "lookupCode"
+    ).value =
+        lastQRText;
+
+
+    switchTab("lookup");
+
+
+    lookupPrescription();
+
+}
+
+
+
+/* =====================================================
+   TRA CỨU ĐƠN THUỐC
+===================================================== */
+
+function lookupPrescription() {
+
+
+    let code =
+        document
+            .getElementById(
+                "lookupCode"
+            )
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    if (!code) {
+
+        alert(
+            "Vui lòng nhập mã đơn thuốc."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Nếu QR có dạng:
+
+       HM001
+
+       thì tìm trực tiếp.
+
+       Nếu QR chứa thêm nội dung,
+       hệ thống sẽ thử tìm mã HM001/HM002
+       trong chuỗi đó.
+    */
+
+
+    let prescription =
+        prescriptions[code];
+
+
+    if (!prescription) {
+
+        const possibleCode =
+            Object.keys(
+                prescriptions
+            ).find(function(key) {
+
+                return code.includes(key);
+
+            });
+
+
+        if (possibleCode) {
+
+            prescription =
+                prescriptions[
+                    possibleCode
+                ];
+
+        }
+
+    }
+
+
+    const result =
+        document.getElementById(
+            "prescriptionResult"
+        );
+
+
+    if (!prescription) {
+
+
+        result.classList.remove(
+            "hidden"
+        );
+
+
+        result.innerHTML = `
+
+            <div
+                class="
+                    bg-white
+                    rounded-2xl
+                    p-5
+                    border
+                    border-red-200
+                    shadow-sm
+                "
+            >
+
+                <div
+                    class="
+                        text-center
+                        text-red-600
+                        mb-3
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-circle-xmark
+                            text-3xl
+                        "
+                    ></i>
+
+                </div>
+
+
+                <h3
+                    class="
+                        text-center
+                        font-bold
+                        text-stone-800
+                    "
+                >
+                    Không tìm thấy đơn thuốc
+                </h3>
+
+
+                <p
+                    class="
+                        text-center
+                        text-xs
+                        text-stone-500
+                        mt-2
+                    "
+                >
+                    Không có dữ liệu cho mã:
+                    <strong>${escapeHTML(code)}</strong>
+                </p>
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    displayPrescription(
+        prescription
+    );
+
+}
+
+
+
+/* =====================================================
+   HIỂN THỊ ĐƠN THUỐC
+===================================================== */
+
+function displayPrescription(data) {
+
+
+    const result =
+        document.getElementById(
+            "prescriptionResult"
+        );
+
+
+    result.classList.remove(
+        "hidden"
+    );
+
+
+    result.innerHTML = `
+
+        <div
+            class="
+                bg-white
+                rounded-2xl
+                p-5
+                border
+                border-emerald-200
+                shadow-sm
+            "
+        >
+
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-3
+                    mb-4
+                "
+            >
+
+                <div
+                    class="
+                        w-12
+                        h-12
+                        rounded-full
+                        bg-emerald-100
+                        text-emerald-800
+                        flex
+                        items-center
+                        justify-center
+                        text-xl
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-file-medical
+                        "
+                    ></i>
 
                 </div>
 
 
                 <div>
 
-                    <h1
+                    <h3
                         class="
                             font-bold
                             text-base
-                            leading-tight
-                            text-amber-100
                         "
                     >
-                        HeriMed Care
-                    </h1>
+                        Thông Tin Đơn Thuốc
+                    </h3>
 
 
                     <p
                         class="
-                            text-[10px]
-                            text-emerald-400
-                            uppercase
-                            tracking-widest
+                            text-[11px]
+                            text-emerald-700
                             font-semibold
                         "
                     >
-                        Trợ Lý Đông Y Cổ Truyền
+                        Mã: ${escapeHTML(data.code)}
                     </p>
 
                 </div>
@@ -194,1741 +2144,409 @@
             </div>
 
 
-            <!-- JOURNAL BUTTON -->
 
-            <button
-                onclick="switchTab('journal')"
-                class="
-                    w-9
-                    h-9
-                    rounded-full
-                    bg-emerald-800/80
-                    border
-                    border-emerald-600/50
-                    flex
-                    items-center
-                    justify-center
-                    text-amber-300
-                    text-sm
-                    active-scale
-                "
-                aria-label="Nhật ký sức khỏe"
-            >
-
-                <i class="fa-solid fa-notes-medical"></i>
-
-            </button>
-
-        </div>
-
-
-        <!-- CONNECTION -->
-
-        <div
-            class="
-                bg-emerald-900/80
-                backdrop-blur-md
-                rounded-xl
-                px-3
-                py-2
-                flex
-                items-center
-                justify-between
-                text-xs
-                border
-                border-emerald-700/50
-            "
-        >
-
-            <div class="flex items-center gap-2">
-
-                <span
-                    class="
-                        w-2
-                        h-2
-                        rounded-full
-                        bg-emerald-400
-                        animate-pulse
-                    "
-                ></span>
-
-                <span class="text-emerald-200">
-                    Hệ Thống Trợ Lý Đông Y
-                </span>
-
-            </div>
-
-
-            <span class="font-semibold text-amber-300">
-                Đã Kết Nối
-            </span>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main
-        class="
-            flex-1
-            px-4
-            py-4
-            space-y-4
-            overflow-y-auto
-            hide-scrollbar
-        "
-    >
-
-
-        <!-- =================================================
-             HOME
-        ================================================== -->
-
-        <section
-            id="tab-home"
-            class="tab-content space-y-4"
-        >
-
-
-            <!-- MEDICINE SCHEDULE -->
-
-            <div
-                class="
-                    bg-white
-                    rounded-2xl
-                    p-4
-                    shadow-sm
-                    border
-                    border-stone-200/60
-                "
-            >
-
-                <div
-                    class="
-                        flex
-                        justify-between
-                        items-center
-                        mb-3
-                    "
-                >
-
-                    <span
-                        class="
-                            text-xs
-                            font-bold
-                            text-stone-400
-                            uppercase
-                            tracking-wider
-                        "
-                    >
-                        Lịch Uống Thuốc
-                    </span>
-
-
-                    <span
-                        class="
-                            text-xs
-                            font-semibold
-                            text-emerald-700
-                            bg-emerald-50
-                            px-2.5
-                            py-1
-                            rounded-full
-                        "
-                    >
-                        Hôm Nay
-                    </span>
-
-                </div>
+            <div class="space-y-3">
 
 
                 <div
                     class="
-                        flex
-                        items-center
-                        justify-between
-                        bg-amber-50/70
-                        border
-                        border-amber-200/70
+                        bg-stone-50
                         rounded-xl
                         p-3
                     "
                 >
 
-                    <div class="flex items-center gap-3">
+                    <p
+                        class="
+                            text-[10px]
+                            uppercase
+                            text-stone-400
+                            font-bold
+                        "
+                    >
+                        Bệnh nhân
+                    </p>
 
-                        <div
+                    <p
+                        class="
+                            text-sm
+                            font-bold
+                            mt-1
+                        "
+                    >
+                        ${escapeHTML(data.patient)}
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="
+                        bg-emerald-50
+                        rounded-xl
+                        p-3
+                    "
+                >
+
+                    <p
+                        class="
+                            text-[10px]
+                            uppercase
+                            text-emerald-700
+                            font-bold
+                        "
+                    >
+                        Bài thuốc
+                    </p>
+
+                    <p
+                        class="
+                            text-sm
+                            font-bold
+                            text-emerald-900
+                            mt-1
+                        "
+                    >
+                        ${escapeHTML(data.medicine)}
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    class="
+                        grid
+                        grid-cols-2
+                        gap-2
+                    "
+                >
+
+                    <div
+                        class="
+                            bg-stone-50
+                            rounded-xl
+                            p-3
+                        "
+                    >
+
+                        <p
                             class="
-                                w-10
-                                h-10
-                                rounded-xl
-                                bg-amber-500
-                                text-emerald-950
-                                flex
-                                items-center
-                                justify-center
-                                text-lg
+                                text-[10px]
+                                text-stone-400
                                 font-bold
                             "
                         >
+                            LƯƠNG Y
+                        </p>
 
-                            <i class="fa-solid fa-mug-hot"></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <h3
-                                class="
-                                    font-bold
-                                    text-stone-800
-                                    text-sm
-                                "
-                            >
-                                Liều Uống Buổi Tối
-                            </h3>
-
-
-                            <p
-                                class="
-                                    text-xs
-                                    text-amber-800
-                                    font-medium
-                                "
-                            >
-                                18:30
-                                (Sau bữa ăn 30 phút)
-                            </p>
-
-                        </div>
+                        <p
+                            class="
+                                text-xs
+                                font-semibold
+                                mt-1
+                            "
+                        >
+                            ${escapeHTML(data.doctor)}
+                        </p>
 
                     </div>
 
 
-                    <i
+                    <div
                         class="
-                            fa-solid
-                            fa-circle-check
-                            text-emerald-600
-                            text-lg
+                            bg-stone-50
+                            rounded-xl
+                            p-3
                         "
-                    ></i>
+                    >
+
+                        <p
+                            class="
+                                text-[10px]
+                                text-stone-400
+                                font-bold
+                            "
+                        >
+                            LIỆU TRÌNH
+                        </p>
+
+                        <p
+                            class="
+                                text-xs
+                                font-semibold
+                                mt-1
+                            "
+                        >
+                            ${escapeHTML(data.duration)}
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
 
-
-
-            <!-- REMEDY -->
-
-            <div
-                class="
-                    bg-gradient-to-br
-                    from-emerald-900
-                    to-emerald-950
-                    text-white
-                    rounded-2xl
-                    p-5
-                    shadow-md
-                    relative
-                    overflow-hidden
-                "
-            >
 
                 <div
                     class="
-                        absolute
-                        -right-4
-                        -bottom-4
-                        text-emerald-800/20
-                        text-8xl
+                        bg-amber-50
+                        border
+                        border-amber-200
+                        rounded-xl
+                        p-3
                     "
                 >
 
-                    <i class="fa-solid fa-leaf"></i>
+                    <p
+                        class="
+                            text-[10px]
+                            text-amber-700
+                            font-bold
+                        "
+                    >
+                        HƯỚNG DẪN
+                    </p>
+
+                    <p
+                        class="
+                            text-xs
+                            mt-1
+                            text-stone-700
+                        "
+                    >
+                        ${escapeHTML(data.dosage)}
+                    </p>
+
+                    <p
+                        class="
+                            text-xs
+                            mt-1
+                            text-stone-700
+                        "
+                    >
+                        ${escapeHTML(data.time)}
+                    </p>
 
                 </div>
 
 
-                <span
+
+                <div
                     class="
-                        bg-emerald-800
-                        text-amber-300
-                        text-[10px]
-                        font-bold
-                        px-2.5
-                        py-0.5
-                        rounded-full
-                        uppercase
-                        tracking-wider
+                        flex
+                        items-center
+                        justify-between
+                        bg-emerald-50
+                        rounded-xl
+                        p-3
                     "
                 >
-                    Đơn Thuốc Đang Dùng
-                </span>
 
+                    <span
+                        class="
+                            text-xs
+                            font-semibold
+                        "
+                    >
+                        Trạng thái
+                    </span>
 
-                <h3
-                    class="
-                        text-lg
-                        font-bold
-                        mt-2
-                        text-amber-100
-                    "
-                >
-                    Bài Thuốc Bổ Phế Giải Cảm
-                </h3>
+                    <span
+                        class="
+                            text-xs
+                            font-bold
+                            text-emerald-700
+                        "
+                    >
+                        <i
+                            class="
+                                fa-solid
+                                fa-circle-check
+                                mr-1
+                            "
+                        ></i>
+
+                        ${escapeHTML(data.status)}
+
+                    </span>
+
+                </div>
+
 
 
                 <p
                     class="
-                        text-xs
-                        text-emerald-200/80
-                        mt-1
-                        mb-4
-                    "
-                >
-                    Lương y: Lương Tấn Định
-                    • Liệu trình 7 ngày
-                </p>
-
-
-                <div class="space-y-1.5">
-
-                    <div
-                        class="
-                            flex
-                            justify-between
-                            text-xs
-                            font-medium
-                        "
-                    >
-
-                        <span class="text-emerald-300">
-                            Tiến độ liệu trình
-                        </span>
-
-
-                        <span
-                            class="
-                                text-amber-300
-                                font-bold
-                            "
-                        >
-                            Ngày 4/7
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        class="
-                            w-full
-                            bg-emerald-950
-                            rounded-full
-                            h-2
-                            border
-                            border-emerald-800
-                        "
-                    >
-
-                        <div
-                            class="
-                                bg-amber-400
-                                h-2
-                                rounded-full
-                            "
-                            style="width:57%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- QUICK ACTIONS -->
-
-            <div class="grid grid-cols-2 gap-3">
-
-
-                <button
-                    onclick="switchTab('journal')"
-                    class="
-                        bg-white
-                        p-4
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        shadow-sm
-                        flex
-                        flex-col
-                        items-center
-                        text-center
-                        space-y-2
-                        active-scale
-                    "
-                >
-
-                    <div
-                        class="
-                            w-11
-                            h-11
-                            rounded-full
-                            bg-amber-100
-                            text-amber-800
-                            flex
-                            items-center
-                            justify-center
-                            text-lg
-                        "
-                    >
-
-                        <i
-                            class="
-                                fa-solid
-                                fa-pen-to-square
-                            "
-                        ></i>
-
-                    </div>
-
-
-                    <span
-                        class="
-                            text-xs
-                            font-bold
-                            text-stone-700
-                        "
-                    >
-                        Ghi Nhật Ký Sức Khỏe
-                    </span>
-
-                </button>
-
-
-
-                <button
-                    onclick="switchTab('appointment')"
-                    class="
-                        bg-white
-                        p-4
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        shadow-sm
-                        flex
-                        flex-col
-                        items-center
-                        text-center
-                        space-y-2
-                        active-scale
-                    "
-                >
-
-                    <div
-                        class="
-                            w-11
-                            h-11
-                            rounded-full
-                            bg-emerald-100
-                            text-emerald-800
-                            flex
-                            items-center
-                            justify-center
-                            text-lg
-                        "
-                    >
-
-                        <i
-                            class="
-                                fa-solid
-                                fa-calendar-check
-                            "
-                        ></i>
-
-                    </div>
-
-
-                    <span
-                        class="
-                            text-xs
-                            font-bold
-                            text-stone-700
-                        "
-                    >
-                        Đặt Lịch Tái Khám
-                    </span>
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             JOURNAL
-        ================================================== -->
-
-        <section
-            id="tab-journal"
-            class="
-                tab-content
-                hidden
-                space-y-3
-            "
-        >
-
-            <div
-                class="
-                    bg-white
-                    p-5
-                    rounded-2xl
-                    border
-                    border-stone-200/60
-                    shadow-sm
-                    space-y-3
-                "
-            >
-
-                <div
-                    class="
-                        flex
-                        justify-between
-                        items-center
-                        border-b
-                        pb-2
-                    "
-                >
-
-                    <h3
-                        class="
-                            font-bold
-                            text-stone-800
-                            text-sm
-                        "
-                    >
-                        Nhật Ký Biểu Hiện Hôm Nay
-                    </h3>
-
-
-                    <span
-                        class="
-                            text-[10px]
-                            bg-amber-100
-                            text-amber-800
-                            px-2
-                            py-0.5
-                            rounded-full
-                            font-semibold
-                        "
-                    >
-                        Ngày 4/7
-                    </span>
-
-                </div>
-
-
-                <form
-                    onsubmit="handleJournalSubmit(event)"
-                    class="space-y-3 text-xs"
-                >
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Cảm giác cơ thể sau khi uống thuốc
-                        </label>
-
-
-                        <select
-                            id="bodyFeeling"
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        >
-
-                            <option>
-                                Dễ chịu, giảm bớt ho/mệt mỏi
-                            </option>
-
-                            <option>
-                                Bình thường, chưa thấy thay đổi rõ
-                            </option>
-
-                            <option>
-                                Hơi ấm người, đổ mồ hôi nhẹ
-                            </option>
-
-                            <option>
-                                Khó chịu / Cần tư vấn thêm
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Giấc ngủ & Ăn uống
-                        </label>
-
-
-                        <select
-                            id="sleepFood"
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        >
-
-                            <option>
-                                Ngủ ngon, ăn uống ngon miệng
-                            </option>
-
-                            <option>
-                                Khó ngủ, đắng miệng
-                            </option>
-
-                            <option>
-                                Bình thường
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Ghi chú thêm cho Lương Y
-                        </label>
-
-
-                        <textarea
-                            id="journalNote"
-                            rows="3"
-                            placeholder="Ví dụ: Ho giảm vào buổi sáng..."
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        ></textarea>
-
-                    </div>
-
-
-
-                    <button
-                        type="submit"
-                        class="
-                            w-full
-                            bg-emerald-900
-                            text-amber-300
-                            font-bold
-                            py-3
-                            rounded-xl
-                            shadow-md
-                            active-scale
-                        "
-                    >
-                        Lưu Nhật Ký Sức Khỏe
-                    </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             HERBS
-        ================================================== -->
-
-        <section
-            id="tab-herbs"
-            class="
-                tab-content
-                hidden
-                space-y-3
-            "
-        >
-
-            <div class="relative">
-
-                <i
-                    class="
-                        fa-solid
-                        fa-magnifying-glass
-                        absolute
-                        left-3.5
-                        top-3
+                        text-[10px]
                         text-stone-400
-                        text-xs
-                    "
-                ></i>
-
-
-                <input
-                    type="text"
-                    id="mobile-search"
-                    oninput="filterMobileHerbs()"
-                    placeholder="Tìm kiếm vị thuốc Đông y..."
-                    class="
-                        w-full
-                        pl-9
-                        pr-4
-                        py-2.5
-                        bg-white
-                        border
-                        border-stone-200
-                        rounded-xl
-                        text-xs
-                        focus:outline-none
-                        focus:ring-2
-                        focus:ring-emerald-700
-                        shadow-sm
+                        leading-relaxed
                     "
                 >
-
-            </div>
-
-
-
-            <div
-                class="space-y-2.5"
-                id="mobile-herb-list"
-            >
-
-
-                <!-- HERB 1 -->
-
-                <div
-                    class="
-                        m-herb-card
-                        bg-white
-                        p-3.5
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        flex
-                        items-center
-                        gap-3
-                    "
-                >
-
-                    <div
-                        class="
-                            w-10
-                            h-10
-                            rounded-xl
-                            bg-amber-100
-                            text-amber-900
-                            font-bold
-                            flex
-                            items-center
-                            justify-center
-                            text-xs
-                            flex-shrink-0
-                        "
-                    >
-                        HK
-                    </div>
-
-
-                    <div class="flex-1 min-w-0">
-
-                        <h4
-                            class="
-                                font-bold
-                                text-sm
-                                text-stone-800
-                                m-herb-name
-                            "
-                        >
-                            Hoàng Kỳ
-                        </h4>
-
-
-                        <p
-                            class="
-                                text-[11px]
-                                text-stone-500
-                            "
-                        >
-                            Bổ khí, cố biểu chỉ hãn, lợi thủy.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- HERB 2 -->
-
-                <div
-                    class="
-                        m-herb-card
-                        bg-white
-                        p-3.5
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        flex
-                        items-center
-                        gap-3
-                    "
-                >
-
-                    <div
-                        class="
-                            w-10
-                            h-10
-                            rounded-xl
-                            bg-amber-100
-                            text-amber-900
-                            font-bold
-                            flex
-                            items-center
-                            justify-center
-                            text-xs
-                            flex-shrink-0
-                        "
-                    >
-                        QC
-                    </div>
-
-
-                    <div class="flex-1 min-w-0">
-
-                        <h4
-                            class="
-                                font-bold
-                                text-sm
-                                text-stone-800
-                                m-herb-name
-                            "
-                        >
-                            Quế Chi
-                        </h4>
-
-
-                        <p
-                            class="
-                                text-[11px]
-                                text-stone-500
-                            "
-                        >
-                            Phát hãn giải cơ, ôn thông kinh mạch.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- HERB 3 -->
-
-                <div
-                    class="
-                        m-herb-card
-                        bg-white
-                        p-3.5
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        flex
-                        items-center
-                        gap-3
-                    "
-                >
-
-                    <div
-                        class="
-                            w-10
-                            h-10
-                            rounded-xl
-                            bg-emerald-100
-                            text-emerald-900
-                            font-bold
-                            flex
-                            items-center
-                            justify-center
-                            text-xs
-                            flex-shrink-0
-                        "
-                    >
-                        QT
-                    </div>
-
-
-                    <div class="flex-1 min-w-0">
-
-                        <h4
-                            class="
-                                font-bold
-                                text-sm
-                                text-stone-800
-                                m-herb-name
-                            "
-                        >
-                            Cam Thảo
-                        </h4>
-
-
-                        <p
-                            class="
-                                text-[11px]
-                                text-stone-500
-                            "
-                        >
-                            Vị ngọt, thường được dùng trong nhiều bài thuốc.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- HERB 4 -->
-
-                <div
-                    class="
-                        m-herb-card
-                        bg-white
-                        p-3.5
-                        rounded-2xl
-                        border
-                        border-stone-200/60
-                        flex
-                        items-center
-                        gap-3
-                    "
-                >
-
-                    <div
-                        class="
-                            w-10
-                            h-10
-                            rounded-xl
-                            bg-emerald-100
-                            text-emerald-900
-                            font-bold
-                            flex
-                            items-center
-                            justify-center
-                            text-xs
-                            flex-shrink-0
-                        "
-                    >
-                        GS
-                    </div>
-
-
-                    <div class="flex-1 min-w-0">
-
-                        <h4
-                            class="
-                                font-bold
-                                text-sm
-                                text-stone-800
-                                m-herb-name
-                            "
-                        >
-                            Gừng
-                        </h4>
-
-
-                        <p
-                            class="
-                                text-[11px]
-                                text-stone-500
-                            "
-                        >
-                            Thường được sử dụng làm gia vị và trong các bài thuốc truyền thống.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="no-herb-result"
-                class="
-                    hidden
-                    text-center
-                    py-8
-                    text-sm
-                    text-stone-400
-                "
-            >
-
-                <i
-                    class="
-                        fa-solid
-                        fa-magnifying-glass
-                        text-2xl
-                        mb-2
-                    "
-                ></i>
-
-                <p>
-                    Không tìm thấy dược liệu.
+                    ${escapeHTML(data.note)}
                 </p>
 
             </div>
 
-        </section>
-
-
-
-        <!-- =================================================
-             APPOINTMENT
-        ================================================== -->
-
-        <section
-            id="tab-appointment"
-            class="
-                tab-content
-                hidden
-                space-y-3
-            "
-        >
-
-            <div
-                class="
-                    bg-white
-                    p-5
-                    rounded-2xl
-                    border
-                    border-stone-200/60
-                    shadow-sm
-                    space-y-3
-                "
-            >
-
-                <h3
-                    class="
-                        font-bold
-                        text-stone-800
-                        text-sm
-                    "
-                >
-                    Đặt Lịch Tái Khám
-                </h3>
-
-
-                <form
-                    onsubmit="handleMobileSubmit(event)"
-                    class="space-y-3 text-xs"
-                >
-
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Bệnh Nhân
-                        </label>
-
-
-                        <input
-                            type="text"
-                            id="patientName"
-                            value="Nguyễn Văn A"
-                            required
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        >
-
-                    </div>
-
-
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Ngày Hẹn Khám
-                        </label>
-
-
-                        <input
-                            type="date"
-                            id="appointmentDate"
-                            required
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        >
-
-                    </div>
-
-
-
-                    <div>
-
-                        <label
-                            class="
-                                block
-                                font-semibold
-                                text-stone-600
-                                mb-1
-                            "
-                        >
-                            Ghi Chú
-                        </label>
-
-
-                        <textarea
-                            id="appointmentNote"
-                            rows="3"
-                            placeholder="Nội dung cần trao đổi..."
-                            class="
-                                w-full
-                                px-3
-                                py-2
-                                bg-stone-50
-                                border
-                                border-stone-200
-                                rounded-xl
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-emerald-700
-                            "
-                        ></textarea>
-
-                    </div>
-
-
-
-                    <button
-                        type="submit"
-                        class="
-                            w-full
-                            bg-emerald-900
-                            text-amber-300
-                            font-bold
-                            py-3
-                            rounded-xl
-                            shadow-md
-                            active-scale
-                        "
-                    >
-                        Xác Nhận Lịch Hẹn
-                    </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =====================================================
-         BOTTOM NAVIGATION
-    ====================================================== -->
-
-    <nav
-        class="
-            fixed
-            bottom-0
-            left-0
-            right-0
-            max-w-md
-            mx-auto
-            bg-white/95
-            backdrop-blur-md
-            border-t
-            border-stone-200
-            px-4
-            py-2
-            flex
-            justify-around
-            items-center
-            z-40
-            shadow-lg
-        "
-    >
-
-
-        <button
-            onclick="switchTab('home')"
-            id="m-nav-home"
-            class="
-                m-nav-btn
-                flex
-                flex-col
-                items-center
-                text-emerald-800
-                active-scale
-            "
-        >
-
-            <i
-                class="
-                    fa-solid
-                    fa-house
-                    text-base
-                "
-            ></i>
-
-            <span
-                class="
-                    text-[10px]
-                    font-bold
-                    mt-0.5
-                "
-            >
-                Trang Chủ
-            </span>
-
-        </button>
-
-
-
-        <button
-            onclick="switchTab('journal')"
-            id="m-nav-journal"
-            class="
-                m-nav-btn
-                flex
-                flex-col
-                items-center
-                text-stone-400
-                active-scale
-            "
-        >
-
-            <i
-                class="
-                    fa-solid
-                    fa-book-medical
-                    text-base
-                "
-            ></i>
-
-            <span
-                class="
-                    text-[10px]
-                    font-bold
-                    mt-0.5
-                "
-            >
-                Nhật Ký
-            </span>
-
-        </button>
-
-
-
-        <button
-            onclick="switchTab('herbs')"
-            id="m-nav-herbs"
-            class="
-                m-nav-btn
-                flex
-                flex-col
-                items-center
-                text-stone-400
-                active-scale
-            "
-        >
-
-            <i
-                class="
-                    fa-solid
-                    fa-leaf
-                    text-base
-                "
-            ></i>
-
-            <span
-                class="
-                    text-[10px]
-                    font-bold
-                    mt-0.5
-                "
-            >
-                Dược Liệu
-            </span>
-
-        </button>
-
-
-
-        <button
-            onclick="switchTab('appointment')"
-            id="m-nav-appointment"
-            class="
-                m-nav-btn
-                flex
-                flex-col
-                items-center
-                text-stone-400
-                active-scale
-            "
-        >
-
-            <i
-                class="
-                    fa-solid
-                    fa-calendar-check
-                    text-base
-                "
-            ></i>
-
-            <span
-                class="
-                    text-[10px]
-                    font-bold
-                    mt-0.5
-                "
-            >
-                Lịch Hẹn
-            </span>
+        </div>
 
-        </button>
+    `;
 
-    </nav>
+}
 
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
+/* =====================================================
+   BẢO VỆ HTML KHI HIỂN THỊ DỮ LIỆU
+===================================================== */
 
-    <script>
+function escapeHTML(text) {
 
 
-        /* =================================================
-           CHUYỂN TAB
-        ================================================= */
+    return String(text)
 
-        function switchTab(tabId) {
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-            // Ẩn tất cả tab
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-            const tabs =
-                document.querySelectorAll(
-                    '.tab-content'
-                );
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-            tabs.forEach(function(tab) {
+}
 
-                tab.classList.add('hidden');
 
-            });
 
+/* =====================================================
+   TÌM DƯỢC LIỆU
+===================================================== */
 
+function filterHerbs() {
 
-            // Reset màu navigation
 
-            const buttons =
-                document.querySelectorAll(
-                    '.m-nav-btn'
-                );
+    const input =
+        document
+            .getElementById(
+                "herbSearch"
+            )
+            .value
+            .toLowerCase();
 
 
-            buttons.forEach(function(button) {
+    document
+        .querySelectorAll(
+            ".herb-card"
+        )
+        .forEach(function(card) {
 
-                button.classList.remove(
-                    'text-emerald-800'
-                );
 
-                button.classList.add(
-                    'text-stone-400'
-                );
-
-            });
-
-
-
-            // Hiện tab được chọn
-
-            const selectedTab =
-                document.getElementById(
-                    'tab-' + tabId
-                );
-
-
-            if (selectedTab) {
-
-                selectedTab.classList.remove(
-                    'hidden'
-                );
-
-            }
-
-
-
-            // Active button
-
-            const activeButton =
-                document.getElementById(
-                    'm-nav-' + tabId
-                );
-
-
-            if (activeButton) {
-
-                activeButton.classList.remove(
-                    'text-stone-400'
-                );
-
-                activeButton.classList.add(
-                    'text-emerald-800'
-                );
-
-            }
-
-
-
-            // Cuộn lên đầu
-
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-
-        }
-
-
-
-        /* =================================================
-           TÌM KIẾM DƯỢC LIỆU
-        ================================================= */
-
-        function filterMobileHerbs() {
-
-
-            const input =
-                document
-                    .getElementById(
-                        'mobile-search'
+            const name =
+                card
+                    .querySelector(
+                        ".herb-name"
                     )
-                    .value
-                    .trim()
+                    .innerText
                     .toLowerCase();
 
 
-            const cards =
-                document.querySelectorAll(
-                    '.m-herb-card'
-                );
+            if (
+                name.includes(input)
+            ) {
 
-
-            let visibleCount = 0;
-
-
-            cards.forEach(function(card) {
-
-
-                const name =
-                    card
-                        .querySelector(
-                            '.m-herb-name'
-                        )
-                        .innerText
-                        .toLowerCase();
-
-
-                if (
-                    name.includes(input)
-                ) {
-
-                    card.style.display =
-                        'flex';
-
-                    visibleCount++;
-
-                }
-
-                else {
-
-                    card.style.display =
-                        'none';
-
-                }
-
-            });
-
-
-
-            const noResult =
-                document.getElementById(
-                    'no-herb-result'
-                );
-
-
-            if (visibleCount === 0) {
-
-                noResult.classList.remove(
-                    'hidden'
-                );
+                card.style.display =
+                    "block";
 
             }
 
             else {
 
-                noResult.classList.add(
-                    'hidden'
-                );
+                card.style.display =
+                    "none";
 
             }
 
-        }
+        });
+
+}
 
 
 
-        /* =================================================
-           NHẬT KÝ
-        ================================================= */
+/* =====================================================
+   NHẬT KÝ
+===================================================== */
 
-        function handleJournalSubmit(event) {
-
-
-            event.preventDefault();
+function handleJournalSubmit(event) {
 
 
-            const feeling =
-                document.getElementById(
-                    'bodyFeeling'
-                ).value;
+    event.preventDefault();
 
 
-            const sleep =
-                document.getElementById(
-                    'sleepFood'
-                ).value;
+    alert(
+        "Đã lưu nhật ký sức khỏe thành công!"
+    );
 
 
-            const note =
-                document.getElementById(
-                    'journalNote'
-                ).value.trim();
+    document.getElementById(
+        "journalNote"
+    ).value = "";
 
-
-            console.log(
-                'Nhật ký:',
-                {
-                    feeling: feeling,
-                    sleep: sleep,
-                    note: note
-                }
-            );
-
-
-            alert(
-                'Đã lưu nhật ký sức khỏe thành công!'
-            );
-
-
-            // Reset ghi chú
-
-            document.getElementById(
-                'journalNote'
-            ).value = '';
-
-
-            // Về trang chủ
-
-            switchTab('home');
-
-        }
+}
 
 
 
-        /* =================================================
-           ĐẶT LỊCH
-        ================================================= */
+/* =====================================================
+   LỊCH HẸN
+===================================================== */
 
-        function handleMobileSubmit(event) {
-
-
-            event.preventDefault();
+function handleAppointment(event) {
 
 
-            const name =
-                document.getElementById(
-                    'patientName'
-                ).value.trim();
+    event.preventDefault();
 
 
-            const date =
-                document.getElementById(
-                    'appointmentDate'
-                ).value;
+    alert(
+        "Đã gửi yêu cầu đặt lịch hẹn thành công!"
+    );
 
 
-            const note =
-                document.getElementById(
-                    'appointmentNote'
-                ).value.trim();
+    document.getElementById(
+        "appointmentNote"
+    ).value = "";
 
-
-            if (!name || !date) {
-
-                alert(
-                    'Vui lòng nhập đầy đủ thông tin.'
-                );
-
-                return;
-
-            }
-
-
-            console.log(
-                'Lịch hẹn:',
-                {
-                    patient: name,
-                    date: date,
-                    note: note
-                }
-            );
-
-
-            alert(
-                'Đã gửi yêu cầu đặt lịch hẹn thành công!'
-            );
-
-
-            document.getElementById(
-                'appointmentNote'
-            ).value = '';
-
-
-            switchTab('home');
-
-        }
+}
 
 
 
-        /* =================================================
-           KHỞI ĐỘNG APP
-        ================================================= */
+/* =====================================================
+   KHỞI ĐỘNG
+===================================================== */
 
-        document.addEventListener(
-            'DOMContentLoaded',
-            function() {
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-                switchTab('home');
+        switchTab("home");
 
-                console.log(
-                    'HeriMed Care đã khởi động.'
-                );
+    }
+);
 
-            }
-        );
-
-    </script>
-
+</script>
 
 </body>
-
 </html>
