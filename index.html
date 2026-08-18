@@ -184,7 +184,7 @@ button{cursor:pointer}
             <i class="fa-solid fa-search mr-2"></i>Tra cứu
         </button>
 
-        <p class="text-[11px] text-stone-400 text-center mt-3">Mã demo: HM001 · HM002 · HM003 · HM004 · HM005</p>
+        <p class="text-[11px] text-stone-400 text-center mt-3">Mã demo: HM001 · HM002 · HM003 · HM004 · HM005 · HM-DAUBUNG-001</p>
     </div>
 
     <div id="prescriptionResult" class="hidden"></div>
@@ -346,9 +346,40 @@ const prescriptions = {
         time:"12:30 và 19:00",
         status:"Đã hoàn thành",
         note:"Dữ liệu minh họa."
+    },
+
+    "HM-DAUBUNG-001":{
+        patient:"Bệnh nhân mẫu",
+        code:"HM-DAUBUNG-001",
+        doctor:"Lương y Nguyễn Minh An",
+        medicine:"Bài thuốc tham khảo cho đau bụng do hàn thấp tích trệ",
+        duration:"Theo chỉ định của lương y",
+        dosage:"Xem thành phần tham khảo bên dưới; không tự áp dụng liều dùng.",
+        time:"Theo chỉ định của lương y",
+        status:"Đơn mẫu trình diễn",
+        note:"Dữ liệu tham khảo cho giao diện. Thành phần được ghi theo một công thức được công bố; chẩn đoán và liều dùng thực tế phải do người hành nghề có chuyên môn xác định.",
+        ingredients:[
+            ["Thảo quả","6 g"],
+            ["Hoắc hương","10 g"],
+            ["Hậu phác","10 g"],
+            ["Bán hạ","6 g"],
+            ["Thanh bì","6 g"],
+            ["Thần khúc","6 g"],
+            ["Cao lương khương","6 g"],
+            ["Cam thảo","4 g"],
+            ["Đinh hương","4 g"],
+            ["Đại táo","10 g"],
+            ["Sinh khương","10 g"]
+        ]
     }
 };
 
+/* 
+   HM-DAUBUNG-001: thành phần tham khảo lấy từ một công thức
+   được công bố cho đau bụng do hàn thấp tích trệ.
+   Nguồn tham khảo: Vinmec, trang về Thảo quả.
+   Không dùng dữ liệu này để tự điều trị.
+*/
 /* =========================
    DỮ LIỆU DƯỢC LIỆU
 ========================= */
@@ -392,21 +423,14 @@ function switchTab(name){
 ========================= */
 function lookupPrescription(){
     const raw=document.getElementById("lookupCode").value.trim().toUpperCase();
+
     if(!raw){
         alert("Vui lòng nhập mã đơn thuốc.");
         return;
     }
 
-    let code=raw;
-    let data=prescriptions[code];
-
-    if(!data){
-        const found=Object.keys(prescriptions).find(k=>raw.includes(k));
-        if(found){
-            code=found;
-            data=prescriptions[found];
-        }
-    }
+    let code = Object.keys(prescriptions).find(k => raw === k || raw.includes(k));
+    let data = code ? prescriptions[code] : null;
 
     const box=document.getElementById("prescriptionResult");
     box.classList.remove("hidden");
@@ -429,6 +453,26 @@ function lookupPrescription(){
 }
 
 function displayPrescription(data){
+    const ingredientsHtml = Array.isArray(data.ingredients) && data.ingredients.length
+        ? `
+            <div class="bg-white border border-stone-200 rounded-xl p-4">
+                <h4 class="font-bold text-sm mb-3">Thành phần tham khảo</h4>
+                <div class="space-y-2">
+                    ${data.ingredients.map(([name, dose]) => `
+                        <div class="flex items-center justify-between gap-3 bg-stone-50 rounded-lg px-3 py-2">
+                            <span class="text-xs font-semibold">${escapeHTML(name)}</span>
+                            <span class="text-xs text-stone-500">${escapeHTML(dose)}</span>
+                        </div>
+                    `).join("")}
+                </div>
+                <p class="text-[10px] text-stone-400 mt-3 leading-relaxed">
+                    Các lượng ghi trên đây là dữ liệu tham khảo từ một công thức được công bố,
+                    không phải chỉ định cho cá nhân.
+                </p>
+            </div>
+        `
+        : "";
+
     document.getElementById("prescriptionResult").innerHTML=`
         <div class="bg-white rounded-2xl p-5 border border-emerald-200 shadow-sm">
             <div class="flex items-center gap-3 mb-4">
@@ -469,6 +513,8 @@ function displayPrescription(data){
                     <p class="text-xs mt-1">${escapeHTML(data.time)}</p>
                 </div>
 
+                ${ingredientsHtml}
+
                 <div class="flex items-center justify-between bg-emerald-50 rounded-xl p-3">
                     <span class="text-xs font-semibold">Trạng thái</span>
                     <span class="text-xs font-bold text-emerald-700">
@@ -476,7 +522,12 @@ function displayPrescription(data){
                     </span>
                 </div>
 
-                <p class="text-[10px] text-stone-400 leading-relaxed">${escapeHTML(data.note)}</p>
+                <div class="bg-red-50 border border-red-200 rounded-xl p-3">
+                    <p class="text-[10px] text-red-700 font-bold">LƯU Ý AN TOÀN</p>
+                    <p class="text-[10px] text-red-700 mt-1 leading-relaxed">
+                        ${escapeHTML(data.note)}
+                    </p>
+                </div>
             </div>
         </div>`;
 }
@@ -546,6 +597,16 @@ function onQRCodeScanned(text){
     document.getElementById("qrResultBox").classList.remove("hidden");
     document.getElementById("qrStatus").textContent="Đã quét thành công mã QR.";
     stopQRScanner();
+
+    // Tự động chuyển sang tra cứu nếu QR chứa mã đơn
+    const hasKnownCode = Object.keys(prescriptions).some(k => lastQRText.toUpperCase().includes(k));
+    if(hasKnownCode){
+        document.getElementById("lookupCode").value=lastQRText;
+        setTimeout(()=>{
+            switchTab("lookup");
+            lookupPrescription();
+        }, 250);
+    }
 }
 
 function lookupFromQR(){
