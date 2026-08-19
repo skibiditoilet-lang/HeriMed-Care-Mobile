@@ -176,7 +176,7 @@ button{cursor:pointer}
 
         <div class="relative">
             <i class="fa-solid fa-file-medical absolute left-3 top-3.5 text-stone-400"></i>
-            <input id="lookupCode" type="text" placeholder="Ví dụ: HM001"
+            <input id="lookupCode" type="text" placeholder="Ví dụ: HM-HO-002, HM-BO-003..."
                 class="w-full pl-9 pr-3 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700">
         </div>
 
@@ -184,7 +184,9 @@ button{cursor:pointer}
             <i class="fa-solid fa-search mr-2"></i>Tra cứu
         </button>
 
-        <p class="text-[11px] text-stone-400 text-center mt-3">Mã demo: HM001 · HM002 · HM003 · HM004 · HM005 · HM-DAUBUNG-001</p>
+        <p class="text-[11px] text-stone-400 text-center mt-3">
+            Mã test: HM-DAUBUNG-001 · HM-HO-002 · HM-BO-003 · QR-HO-2026 · QR-BOTY-2026
+        </p>
     </div>
 
     <div id="prescriptionResult" class="hidden"></div>
@@ -289,10 +291,10 @@ button{cursor:pointer}
 
 <script>
 /* =========================
-   DỮ LIỆU ĐƠN THUỐC (ĐÃ TÍCH HỢP 2 MÃ QR)
+   DỮ LIỆU ĐƠN THUỐC (ĐÃ BỔ SUNG THÊM BÀI THUỐC & MÃ QR MỚI)
 ========================= */
 const prescriptions = {
-    // 1. Quét mã QR số 1 (Đã map link từ ảnh QR 1 vào bài thuốc đau bụng)
+    // --- MÃ QR 1 & BÀI THUỐC ĐAU BỤNG ---
     "https://play.google.com/store/apps/details?id=fr.smarquis.qrcode": {
         patient: "Bệnh nhân QR 01",
         code: "HM-DAUBUNG-001",
@@ -302,7 +304,7 @@ const prescriptions = {
         dosage: "Xem thành phần tham khảo bên dưới; không tự áp dụng liều dùng.",
         time: "Theo chỉ định của lương y",
         status: "Đơn mẫu trình diễn",
-        note: "Dữ liệu quét thành công từ mã QR 1. Thành phần được ghi theo công thức công bố; chẩn đoán và liều dùng thực tế phải do người hành nghề có chuyên môn xác định.",
+        note: "Dữ liệu quét từ mã QR 1. Thành phần được ghi theo công thức công bố; chẩn đoán và liều dùng thực tế phải do người hành nghề có chuyên môn xác định.",
         ingredients: [
             ["Thảo quả", "6 g"],
             ["Hoắc hương", "10 g"],
@@ -318,26 +320,6 @@ const prescriptions = {
         ]
     },
 
-    // 2. Quét mã QR số 2 (Đã map chuỗi WRO2026-B4-02-CHECKPOINT-2)
-    "WRO2026-B4-02-CHECKPOINT-2": {
-        patient: "Bệnh nhân QR 02 (WRO 2026)",
-        code: "WRO2026-B4-02-CHECKPOINT-2",
-        doctor: "Lương y HeriMed Care",
-        medicine: "Bài thuốc Ôn Trung Tán Hàn (Đau bụng lạnh)",
-        duration: "5 ngày",
-        dosage: "Sắc uống ngày 1 thang, chia 2 lần sau ăn ấm.",
-        time: "08:00 và 17:00",
-        status: "Đang sử dụng",
-        note: "Dữ liệu tra cứu mô phỏng từ mã QR Checkpoint 2 trong cuộc thi WRO 2026.",
-        ingredients: [
-            ["Can khương", "8 g"],
-            ["Mộc hương", "6 g"],
-            ["Trần bì", "10 g"],
-            ["Chích cam thảo", "6 g"]
-        ]
-    },
-
-    // 3. Giữ nguyên mã tra cứu thủ công
     "HM-DAUBUNG-001": {
         patient: "Bệnh nhân mẫu",
         code: "HM-DAUBUNG-001",
@@ -362,6 +344,100 @@ const prescriptions = {
             ["Sinh khương", "10 g"]
         ]
     },
+
+    // --- MÃ QR 2 & BÀI THUỐC ĐAU BỤNG LẠNH ---
+    "WRO2026-B4-02-CHECKPOINT-2": {
+        patient: "Bệnh nhân QR 02 (WRO 2026)",
+        code: "WRO2026-B4-02-CHECKPOINT-2",
+        doctor: "Lương y HeriMed Care",
+        medicine: "Bài thuốc Ôn Trung Tán Hàn (Đau bụng lạnh)",
+        duration: "5 ngày",
+        dosage: "Sắc uống ngày 1 thang, chia 2 lần sau ăn ấm.",
+        time: "08:00 và 17:00",
+        status: "Đang sử dụng",
+        note: "Dữ liệu tra cứu mô phỏng từ mã QR Checkpoint 2 trong cuộc thi WRO 2026.",
+        ingredients: [
+            ["Can khương", "8 g"],
+            ["Mộc hương", "6 g"],
+            ["Trần bì", "10 g"],
+            ["Chích cam thảo", "6 g"]
+        ]
+    },
+
+    // --- BÀI THUỐC MỚI 1: TRI HO, CẢM MẠO (MA HOÀNG THANG) ---
+    // Nhập text "QR-HO-2026" hoặc "HM-HO-002" khi làm QR code mới
+    "QR-HO-2026": {
+        patient: "Trần Văn Cường",
+        code: "HM-HO-002",
+        doctor: "Lương y Lương Tấn Định",
+        medicine: "Bài thuốc Ma Hoàng Thang (Trị ho, giải cảm phong hàn)",
+        duration: "3 ngày",
+        dosage: "Sắc uống nóng, ngày 1 thang chia làm 3 lần. Uống xong đắp chăn nhẹ cho rịn mồ hôi.",
+        time: "08:00, 13:00 và 19:00",
+        status: "Đang sử dụng",
+        note: "Bài thuốc cổ truyền chuyên trị ho, sợ lạnh, sốt không mồ hôi, đau đầu ngực ngực bức bối.",
+        ingredients: [
+            ["Ma hoàng", "9 g"],
+            ["Quế chi", "6 g"],
+            ["Hạnh nhân", "9 g"],
+            ["Cam thảo (chích)", "3 g"]
+        ]
+    },
+    "HM-HO-002": {
+        patient: "Trần Văn Cường",
+        code: "HM-HO-002",
+        doctor: "Lương y Lương Tấn Định",
+        medicine: "Bài thuốc Ma Hoàng Thang (Trị ho, giải cảm phong hàn)",
+        duration: "3 ngày",
+        dosage: "Sắc uống nóng, ngày 1 thang chia làm 3 lần. Uống xong đắp chăn nhẹ cho rịn mồ hôi.",
+        time: "08:00, 13:00 và 19:00",
+        status: "Đang sử dụng",
+        note: "Bài thuốc cổ truyền chuyên trị ho, sợ lạnh, sốt không mồ hôi, đau đầu ngực ngực bức bối.",
+        ingredients: [
+            ["Ma hoàng", "9 g"],
+            ["Quế chi", "6 g"],
+            ["Hạnh nhân", "9 g"],
+            ["Cam thảo (chích)", "3 g"]
+        ]
+    },
+
+    // --- BÀI THUỐC MỚI 2: BỔ TỲ VỊ, TIÊU HÓA KÉM (TỨ QUÂN TỬ THANG) ---
+    // Nhập text "QR-BOTY-2026" hoặc "HM-BO-003" khi làm QR code mới
+    "QR-BOTY-2026": {
+        patient: "Lê Thị Mai",
+        code: "HM-BO-003",
+        doctor: "Lương y Nguyễn Minh An",
+        medicine: "Bài thuốc Tứ Quân Tử Thang (Bổ tỳ vị, kiện tỳ ích khí)",
+        duration: "10 ngày",
+        dosage: "Sắc uống ngày 1 thang, chia 2 lần sau khi ăn 45 phút.",
+        time: "09:00 và 15:00",
+        status: "Chờ sử dụng",
+        note: "Dành cho người tỳ vị hư yếu, ăn uống kém, đầy bụng, sắc mặt nhạt nhòa, cơ thể mệt mỏi.",
+        ingredients: [
+            ["Nhân sâm (hoặc Đảng sâm)", "10 g"],
+            ["Bạch truật", "9 g"],
+            ["Phục linh", "9 g"],
+            ["Cam thảo (chích)", "6 g"]
+        ]
+    },
+    "HM-BO-003": {
+        patient: "Lê Thị Mai",
+        code: "HM-BO-003",
+        doctor: "Lương y Nguyễn Minh An",
+        medicine: "Bài thuốc Tứ Quân Tử Thang (Bổ tỳ vị, kiện tỳ ích khí)",
+        duration: "10 ngày",
+        dosage: "Sắc uống ngày 1 thang, chia 2 lần sau khi ăn 45 phút.",
+        time: "09:00 và 15:00",
+        status: "Chờ sử dụng",
+        note: "Dành cho người tỳ vị hư yếu, ăn uống kém, đầy bụng, sắc mặt nhạt nhòa, cơ thể mệt mỏi.",
+        ingredients: [
+            ["Nhân sâm (hoặc Đảng sâm)", "10 g"],
+            ["Bạch truật", "9 g"],
+            ["Phục linh", "9 g"],
+            ["Cam thảo (chích)", "6 g"]
+        ]
+    },
+
     HM001: {
         patient: "Nguyễn Văn A",
         code: "HM001",
@@ -382,39 +458,6 @@ const prescriptions = {
         dosage: "Dùng theo hướng dẫn trên đơn.",
         time: "07:00 và 19:00",
         status: "Đang sử dụng",
-        note: "Dữ liệu minh họa."
-    },
-    HM003: {
-        patient: "Lê Minh C",
-        code: "HM003",
-        doctor: "Lương y HeriMed Care",
-        medicine: "Bài thuốc An Thần",
-        duration: "10 ngày",
-        dosage: "Dùng sau bữa ăn theo hướng dẫn.",
-        time: "20:00",
-        status: "Đang sử dụng",
-        note: "Dữ liệu minh họa."
-    },
-    HM004: {
-        patient: "Phạm Thị D",
-        code: "HM004",
-        doctor: "Lương y HeriMed Care",
-        medicine: "Bài thuốc Bổ Tỳ",
-        duration: "14 ngày",
-        dosage: "Dùng đúng liều ghi trên đơn.",
-        time: "07:30 và 18:30",
-        status: "Chờ sử dụng",
-        note: "Dữ liệu minh họa."
-    },
-    HM005: {
-        patient: "Võ Gia E",
-        code: "HM005",
-        doctor: "Lương y HeriMed Care",
-        medicine: "Bài thuốc Hỗ Trợ Tiêu Hóa",
-        duration: "7 ngày",
-        dosage: "Dùng sau bữa ăn.",
-        time: "12:30 và 19:00",
-        status: "Đã hoàn thành",
         note: "Dữ liệu minh họa."
     }
 };
